@@ -7,8 +7,26 @@
       //
       // TODO: Implement this function.
       //
-      const transformObject = () => {}
-    </script>
+      const transformObject = (obj) => {
+        const transform = (value) => {
+          if (typeof value === 'number') {
+            return value + 6;
+          } else if (typeof value === 'string') {
+            return value + ' BLARGH';
+          } else if (Array.isArray(value)) {
+            return value.map(transform);
+          } else if (typeof value === 'object' && value !== null) {
+            return Object.keys(value).reduce((acc, key) => {
+              acc[key] = transform(value[key]);
+              return acc;
+            }, {});
+          } else {
+            return value; // Return as is if it's not a number, string, array, or object
+          }
+        };
+        return transform(obj);
+      };
+      </script>
   </head>
 
   <body>
