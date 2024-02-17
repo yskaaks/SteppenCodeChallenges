@@ -4,6 +4,7 @@ SELECT
     sub.customer_id,
     sub.total_monthly_order_value
 FROM
+    -- calculates the total order value per customer FOR each MONTH
     (
         SELECT
             strftime('%Y', o.ordered_at) AS year,
@@ -18,7 +19,9 @@ FROM
             MONTH,
             o.customer_id
     ) AS sub
-    JOIN (
+    JOIN 
+    -- calculates maximum order value FOR each MONTH
+    (
         SELECT
             year,
             MONTH,
@@ -44,7 +47,9 @@ FROM
     ) AS max_values ON sub.year = max_values.year
     AND sub.month = max_values.month
     AND sub.total_monthly_order_value = max_values.max_value
-    JOIN (
+    JOIN 
+    -- finds the minimum customer ID FOR each total monthly order value
+    (
         SELECT
             year,
             MONTH,
